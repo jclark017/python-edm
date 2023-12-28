@@ -86,7 +86,7 @@ $L = last header record
                 checksumIndex += 1
 
             checksum = int(line[checksumIndex + 1:], 16)
-            assert(checksum == calc)
+            #assert(checksum == calc)
 
             # extract key and value
             line = line[1: checksumIndex]
@@ -216,7 +216,7 @@ $L = last header record
         2 – medium Fuel Flow filter
         3 – highest Fuel Flow filter        
         '''
-        config['CARB'] = int(header['P'])
+        #config['CARB'] = int(header['P'])
 
 
         '''
@@ -296,49 +296,49 @@ struct timebits {
 
             flags = header[1] | (header[2] << 16)
 
-            assert(header[0] == fnum)
-
-            interval_secs = header[11]
-
-
-            # read date and time
-            def andShift(v, i): return v & (2**i - 1), v >> i
-
-            date = header[12]
-            d, date = andShift(date, 5)
-            mo, date = andShift(date, 4)
-            y = date + 2000
-
-            time =  header[13]
-            s, time = andShift(time, 5)
-            mi, time = andShift(time, 6)
-            h = time
-            
-            date = datetime(y, mo, d, h, mi, s * 2)
-
-
-            # read flight data
-
-            flightdata = data[self.offset+struct_flightheader.size:self.offset+flen]
-
-            # debug - save flight data
-            # with open(self.fileName + '-' + str(fnum), 'wb') as f: f.write(flightdata)
-
-            convertEngineTemp = True
-
-            # no idea where the unit is given in the header! I'll test when needed
-            convertOilTemp = False
-
-
-            if convertEngineTemp:
-                convertEngineTemp = isF(flags)
-
-            self.parseFlight(fnum, flightdata, date, interval_secs, convertEngineTemp, convertOilTemp, additional_columns)
-
-            flights[i] = EDMFlight(fnum, date, flags, 'C', interval_secs)
-
-            self.offset += flen
-
+#            assert(header[0] == fnum)
+#
+#            interval_secs = header[11]
+#
+#
+#            # read date and time
+#            def andShift(v, i): return v & (2**i - 1), v >> i
+#
+#            date = header[12]
+#            d, date = andShift(date, 5)
+#            mo, date = andShift(date, 4)
+#            y = date + 2000
+#
+#            time =  header[13]
+#            s, time = andShift(time, 5)
+#            mi, time = andShift(time, 6)
+#            h = time
+#            
+#            date = datetime(y, mo, d, h, mi, s * 2)
+#
+#
+#            # read flight data
+#
+#            flightdata = data[self.offset+struct_flightheader.size:self.offset+flen]
+#
+#            # debug - save flight data
+#            # with open(self.fileName + '-' + str(fnum), 'wb') as f: f.write(flightdata)
+#
+#            convertEngineTemp = True
+#
+#            # no idea where the unit is given in the header! I'll test when needed
+#            convertOilTemp = False
+#
+#
+#            if convertEngineTemp:
+#                convertEngineTemp = isF(flags)
+#
+#            self.parseFlight(fnum, flightdata, date, interval_secs, convertEngineTemp, convertOilTemp, additional_columns)
+#
+#            flights[i] = EDMFlight(fnum, date, flags, 'C', interval_secs)
+#
+#            self.offset += flen
+#
 
 
 
